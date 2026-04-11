@@ -66,7 +66,11 @@ export default function OTPVerification() {
     const otpCode = otp.join('');
     if (otpCode.length !== 6) return;
     setLoading(true);
-    setError('');
+    if (otpCode !== '123456') {
+      setError('Invalid code. Please use 123456.');
+      setLoading(false);
+      return;
+    }
 
     try {
       // Skip API verification, just proceed with Firestore logic
@@ -133,7 +137,10 @@ export default function OTPVerification() {
         <h2 className="text-4xl font-bold mb-4">Verify your number</h2>
         <p className="text-gray-600 mb-8">
           Enter the 6-digit code sent to{' '}
-          <span className="font-bold">+91 {phone}</span>
+          <span className="font-bold">+91 {phone}</span><br />
+          <span className="text-blue-600 text-sm font-semibold inline-block mt-2">
+            *Demo: Please use 123456 as the OTP
+          </span>
         </p>
 
         <div className="flex gap-3 mb-8">

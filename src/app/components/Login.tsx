@@ -38,7 +38,10 @@ export default function Login() {
 
         <h2 className="text-3xl font-bold mb-2">Welcome back</h2>
         <p className="text-gray-600 mb-8">
-          Enter your phone number to continue
+          Enter your phone number to continue<br />
+          <span className="text-blue-600 text-sm font-semibold inline-block mt-2">
+            *Demo: Please enter any 10-digit number
+          </span>
         </p>
 
         <div className="space-y-4">

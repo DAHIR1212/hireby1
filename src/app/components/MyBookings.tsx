@@ -94,7 +94,7 @@ export default function MyBookings() {
             >
               {tab.label}
               {tab.key === 'active' && myBookings.filter(b => b.status === 'pending' || b.status === 'accepted' || b.status === 'active').length > 0 && (
-                <span className="ml-2 bg-[#708090] text-white px-2 py-0.5 rounded-full text-[9px]">
+                <span className="ml-2 bg-blue-500 text-white px-2 py-0.5 rounded-full text-[9px]">
                   {myBookings.filter(b => b.status === 'pending' || b.status === 'accepted' || b.status === 'active').length}
                 </span>
               )}
@@ -138,7 +138,7 @@ export default function MyBookings() {
                     <p className="text-xs text-gray-400 font-bold mb-3 uppercase tracking-widest">BY {booking.providerName}</p>
                     
                     {booking.status === 'active' && (
-                      <div className="flex items-center gap-2 text-[10px] font-black text-black uppercase tracking-[0.2em] bg-gray-100 px-3 py-1.5 rounded-full w-fit">
+                      <div className="flex items-center gap-2 text-[10px] font-black text-green-600 uppercase tracking-[0.2em] bg-green-50 px-3 py-1.5 rounded-full w-fit">
                         <Activity className="w-3.5 h-3.5 animate-pulse" />
                         Live Progress
                       </div>
@@ -149,7 +149,7 @@ export default function MyBookings() {
                 <div className="bg-gray-50/50 rounded-[28px] p-5 space-y-4 mb-6 border border-gray-100/50">
                   <div className="flex items-center justify-between text-xs font-bold text-gray-500">
                     <div className="flex items-center gap-2.5">
-                      <Calendar className="w-4 h-4 text-[#708090]" />
+                      <Calendar className="w-4 h-4 text-blue-500" />
                       <span>{getTime(booking.createdAt)}</span>
                     </div>
                     <p className="text-gray-900 font-black text-sm">₹{booking.price}</p>
@@ -181,10 +181,10 @@ export default function MyBookings() {
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); navigate(`/booking-tracking?bookingId=${booking.id}`); }}
-                          className="flex-1 py-4 bg-black text-white rounded-[20px] font-black text-xs uppercase tracking-widest shadow-xl flex items-center justify-center gap-2 active:scale-95 transition-all"
+                          className="flex-1 py-4 bg-[#2563EB] text-white rounded-[20px] font-black text-xs uppercase tracking-widest shadow-xl shadow-blue-200 flex items-center justify-center gap-2 active:scale-95 transition-all"
                         >
-                          <MapPin className="w-4 h-4 text-[#708090]" />
-                          Track Status
+                          <MapPin className="w-4 h-4" />
+                          Track
                         </button>
                       </>
                     ) : booking.status === 'completed' && !booking.rated ? (

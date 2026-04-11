@@ -57,10 +57,16 @@ export default function BookingTracking() {
       <Header title="Quest Tracking" />
 
       <div className="flex-1 overflow-y-auto px-6 py-6 pb-24">
-        <div className="bg-black rounded-[32px] p-8 text-white mb-8 shadow-2xl relative overflow-hidden">
+        <div className="bg-[#2563EB] rounded-[32px] p-8 text-white mb-8 shadow-2xl shadow-blue-200 flex items-center justify-between relative overflow-hidden">
           <div className="relative z-10">
-            <p className="text-[10px] font-black opacity-60 tracking-[0.2em] mb-1 uppercase">TRACKING STATUS</p>
-            <p className="text-4xl font-black">{status === 'active' ? 'Work in Progress' : 'In Transit'}</p>
+            <p className="text-[10px] font-black opacity-60 tracking-[0.2em] mb-1 uppercase">ESTIMATED ARRIVAL</p>
+            <p className="text-4xl font-black">{status === 'active' ? 'Live Now' : '8 mins'}</p>
+            <p className="text-xs font-bold opacity-80 mt-4 max-w-[180px]">
+              {status === 'active' ? 'Professionals is currently performing the service.' : 'Your professional is navigating to your portal.'}
+            </p>
+          </div>
+          <div className="w-20 h-20 bg-white/20 rounded-[28px] flex items-center justify-center relative z-10">
+            <Clock className={`w-10 h-10 text-white ${status === 'active' ? 'animate-spin-slow' : 'animate-pulse'}`} />
           </div>
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl" />
         </div>
@@ -83,10 +89,16 @@ export default function BookingTracking() {
           <div className="flex gap-3">
             <button 
               onClick={() => window.open(`tel:+${booking.providerPhone || booking.providerId}`)}
-              className="w-full flex items-center justify-center gap-3 py-4 bg-black text-white rounded-[20px] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-gray-100 active:scale-95 transition-all"
+              className="flex-1 flex items-center justify-center gap-3 py-4 bg-gray-900 text-white rounded-[20px] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-gray-100 active:scale-95 transition-all"
             >
               <Phone className="w-4 h-4 fill-white" />
               Call Specialist
+            </button>
+            <button
+              onClick={() => navigate(`/chat?providerId=${booking.providerId}&providerName=${booking.providerName}`)}
+              className="w-16 h-16 flex items-center justify-center bg-gray-50 text-gray-400 rounded-[24px] border border-gray-100 active:scale-90 transition-all shrink-0"
+            >
+              <MessageSquare className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -130,6 +142,25 @@ export default function BookingTracking() {
               label="Partner Engaged" 
               desc={`${booking.providerName} is now in transit.`} 
             />
+
+            {/* Fake Interactive Live Map tracking logic */}
+            {(status === 'accepted' || status === 'active') && (
+               <div className="ml-8 mt-2 mb-6 h-40 bg-gray-100 rounded-3xl overflow-hidden border-2 border-gray-100 shadow-inner relative group">
+                 <iframe 
+                    width="100%" 
+                    height="100%" 
+                    title="Live Tracking Map"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=72.82%2C18.97%2C72.83%2C18.98&amp;layer=mapnik&amp;marker=18.975%2C72.825" 
+                    style={{ border: 0 }}
+                    loading="lazy"
+                  />
+                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[9px] font-black uppercase shadow-sm flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" />
+                    Live Global Positioning
+                  </div>
+               </div>
+            )}
+
             <StatusItem 
               active={status === 'active'} 
               completed={status === 'completed'} 

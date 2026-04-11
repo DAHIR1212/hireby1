@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Calendar, Clock, MapPin, Phone, MessageSquare, CheckCircle, Star, Play, Square, Activity, CreditCard } from 'lucide-react';
+import { Calendar, Clock, MapPin, Phone, MessageSquare, CheckCircle, Star, Play, Square, Activity, CreditCard, ShieldCheck } from 'lucide-react';
 import ProviderBottomNav from './ProviderBottomNav';
 import { useBooking, Booking } from '../context/BookingContext';
 
@@ -27,8 +27,8 @@ export default function ProviderJobs() {
     <div className="size-full flex flex-col bg-white pb-20">
       <div className="px-6 pt-12 pb-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
         <h1 className="font-black text-2xl tracking-tighter uppercase text-gray-900">Mission Logs</h1>
-        <div className="px-3 py-1 bg-gray-100 rounded-full border border-gray-200">
-          <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Provider Active</span>
+        <div className="px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
+          <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Provider Active</span>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function ProviderJobs() {
                     <div>
                       <h3 className="font-black text-2xl mb-1 text-gray-900 leading-none truncate max-w-[150px]">{job.service}</h3>
                       <div className="flex items-center gap-2 mt-2">
-                        <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center text-xs font-black text-white shadow-xl shadow-black/10">
+                        <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-xs font-black text-white shadow-xl shadow-blue-100">
                           {job.customerName?.[0]}
                         </div>
                         <p className="text-xs font-black text-gray-500 uppercase tracking-tight">{job.customerName}</p>
@@ -73,8 +73,8 @@ export default function ProviderJobs() {
                     <span
                       className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border transition-all ${
                         job.status === 'active'
-                          ? 'bg-black text-white border-black'
-                          : 'bg-gray-50 text-gray-600 border-gray-100'
+                          ? 'bg-green-500 text-white border-green-400 animate-pulse'
+                          : 'bg-blue-50 text-blue-600 border-blue-100'
                       }`}
                     >
                       {job.status === 'active' ? '● LIVE WORK' : 'READY TO START'}
@@ -82,10 +82,14 @@ export default function ProviderJobs() {
                   </div>
 
                   {job.status === 'active' && job.startTime && (
-                    <div className="bg-black rounded-[28px] p-6 mb-6 flex items-center justify-between text-white shadow-2xl shadow-gray-300">
+                    <div className="bg-gray-900 rounded-[28px] p-6 mb-6 flex items-center justify-between text-white shadow-2xl shadow-gray-300 border-l-[12px] border-green-500">
                       <div>
+                        <p className="text-[10px] font-black opacity-50 tracking-[0.2em] mb-1 uppercase">TIME CAPTURED</p>
+                        <p className="text-3xl font-black">{getDurationString(job.startTime)}</p>
+                      </div>
+                      <div className="text-right">
                         <p className="text-[10px] font-black opacity-50 tracking-[0.2em] mb-1 uppercase">EST. VALUE</p>
-                        <p className="text-3xl font-black text-white">₹{job.price}</p>
+                        <p className="text-3xl font-black text-green-400">₹{job.price}</p>
                       </div>
                     </div>
                   )}
@@ -115,10 +119,20 @@ export default function ProviderJobs() {
                     <div className="flex-1 flex gap-2">
                     {/* Status Indicators (Control is Client-Side Only) */}
                     {job.status === 'accepted' ? (
-                      <div className="flex-1 py-4.5 bg-blue-50 text-blue-600 rounded-[22px] font-black text-[10px] uppercase tracking-widest text-center border border-blue-100 flex items-center justify-center gap-2">
-                        <Activity className="w-4 h-4 animate-pulse" />
-                        Awaiting Client to Start
-                      </div>
+                      <button
+                        onClick={() => {
+                           const pin = window.prompt("Enter the 4-digit Arrival PIN from the client's screen:");
+                           if (pin === job.id.replace(/\D/g, '0').slice(-4)) {
+                             updateBooking(job.id, { status: 'active', startTime: new Date().toISOString() });
+                           } else if (pin) {
+                             alert("Invalid PIN. Please ask the client for the correct PIN.");
+                           }
+                        }}
+                        className="flex-1 py-4.5 bg-blue-600 text-white rounded-[22px] font-black text-[10px] uppercase tracking-widest text-center shadow-xl shadow-blue-200 flex items-center justify-center gap-2 active:scale-95 transition-all"
+                      >
+                        <ShieldCheck className="w-4 h-4 text-white" />
+                        Verify Client PIN to Start
+                      </button>
                     ) : (
                       <>
                         {!job.endTime ? (
@@ -144,13 +158,18 @@ export default function ProviderJobs() {
                     )}
                     </div>
 
-                    <div className="flex gap-2 w-full">
+                    <div className="flex gap-2">
                        <button
                         onClick={() => window.location.href = `tel:+91${job.customerPhone}`}
-                        className="w-full h-14 bg-black text-white border border-black rounded-[22px] flex items-center justify-center active:scale-95 transition-all shadow-xl shadow-black/10"
+                        className="w-14 h-14 bg-gray-50 text-gray-900 border border-gray-100 rounded-[22px] flex items-center justify-center active:scale-95 transition-all shadow-sm"
                       >
-                        <Phone className="w-5 h-5 fill-white" />
-                        <span className="ml-2 font-black text-xs uppercase tracking-widest">Call Customer</span>
+                        <Phone className="w-5 h-5 fill-gray-900" />
+                      </button>
+                      <button
+                        onClick={() => navigate(`/chat?customerId=${job.customerId}&customerName=${job.customerName}`)}
+                        className="w-14 h-14 bg-blue-600 text-white rounded-[22px] flex items-center justify-center active:scale-95 transition-all shadow-xl shadow-blue-100"
+                      >
+                        <MessageSquare className="w-5 h-5 fill-white" />
                       </button>
                     </div>
                   </div>

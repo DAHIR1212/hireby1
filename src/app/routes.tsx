@@ -22,7 +22,7 @@ import ProviderDashboard from "./components/ProviderDashboard.tsx";
 import BookingRequest from "./components/BookingRequest.tsx";
 import ActiveJob from "./components/ActiveJob.tsx";
 import JobComplete from "./components/JobComplete.tsx";
-// import Chat from "./components/Chat.tsx";
+import Chat from "./components/Chat.tsx";
 import Notifications from "./components/Notifications.tsx";
 import EditProfile from "./components/EditProfile.tsx";
 import ManageAddresses from "./components/ManageAddresses.tsx";
@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
       { path: "booking-request", Component: BookingRequest },
       { path: "active-job", Component: ActiveJob },
       { path: "job-complete", Component: JobComplete },
-      // { path: "chat", Component: Chat },
+      { path: "chat", Component: Chat },
       { path: "notifications", Component: Notifications },
       { path: "edit-profile", Component: EditProfile },
       { path: "manage-addresses", Component: ManageAddresses },

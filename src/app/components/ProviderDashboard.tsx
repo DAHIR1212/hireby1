@@ -82,12 +82,12 @@ export default function ProviderDashboard() {
               {/* Profile Button */}
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="w-10 h-10 rounded-full overflow-hidden border-2 border-black"
+                className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-600"
               >
                 {providerPhoto ? (
                   <img src={providerPhoto} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-black flex items-center justify-center text-white font-bold">
+                  <div className="w-full h-full bg-blue-600 flex items-center justify-center text-white font-bold">
                     {firstName[0]?.toUpperCase() || 'P'}
                   </div>
                 )}
@@ -143,36 +143,36 @@ export default function ProviderDashboard() {
           {/* Earnings Card */}
           <button
             onClick={() => navigate('/provider-earnings')}
-            className="w-full bg-black rounded-2xl p-6 text-white mb-6 text-left shadow-xl"
+            className="w-full bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-white mb-6 text-left"
           >
             <div className="flex items-center justify-between mb-4">
                <div>
-                  <p className="text-sm text-gray-400 mb-1 opacity-70 uppercase tracking-widest font-black">Today</p>
+                  <p className="text-sm text-blue-100 mb-1 opacity-70 uppercase tracking-widest font-black">Today</p>
                   <p className="text-2xl font-black">₹{todayEarnings.toLocaleString()}</p>
                </div>
                <div className="text-right">
-                  <p className="text-sm text-gray-400 mb-1 opacity-70 uppercase tracking-widest font-black">Total</p>
+                  <p className="text-sm text-blue-100 mb-1 opacity-70 uppercase tracking-widest font-black">Total</p>
                   <p className="text-2xl font-black">₹{totalEarnings.toLocaleString()}</p>
                </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-4">
+            <div className="grid grid-cols-2 gap-4 border-t border-white/20 pt-4">
               <div>
-                <p className="text-[10px] text-gray-400 mb-1 font-black uppercase tracking-widest">Active Jobs</p>
+                <p className="text-[10px] text-blue-100 mb-1 font-black uppercase tracking-widest">Active Jobs</p>
                 <p className="text-xl font-black">
                   {activeBookings.length}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-gray-400 mb-1 font-black uppercase tracking-widest">Completed</p>
+                <p className="text-[10px] text-blue-100 mb-1 font-black uppercase tracking-widest">Completed</p>
                 <p className="text-xl font-black">
                   {completedBookings.length}
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-gray-800">
-              <span className="text-sm font-bold uppercase tracking-widest text-[10px] text-[#708090]">View Detailed Earnings</span>
-              <ChevronRight className="w-4 h-4 text-[#708090]" />
+            <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-blue-500">
+              <span className="text-sm">View Detailed Earnings</span>
+              <ChevronRight className="w-4 h-4" />
             </div>
           </button>
 
@@ -210,7 +210,7 @@ export default function ProviderDashboard() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
                         <h4 className="font-extrabold text-gray-900 truncate">{booking.service}</h4>
-                        <span className="bg-black text-white px-2 py-0.5 rounded-lg text-[10px] font-black tracking-tighter">
+                        <span className="bg-blue-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-black tracking-tighter">
                           NEW
                         </span>
                       </div>
@@ -236,7 +236,7 @@ export default function ProviderDashboard() {
                   <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => handleAccept(booking)}
-                      className="flex-1 py-3 bg-black text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
+                      className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-100 hover:bg-blue-700 transition-colors"
                     >
                       <CheckCircle className="w-4 h-4" />
                       Accept

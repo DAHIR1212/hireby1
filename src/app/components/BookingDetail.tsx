@@ -132,7 +132,7 @@ export default function BookingDetail() {
 
       <div className="flex-1 overflow-y-auto px-6 py-6 pb-40 space-y-8">
         {/* Info Card */}
-        <div className="bg-black rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
           
           <div className="relative z-10 flex flex-col gap-6">
@@ -156,31 +156,53 @@ export default function BookingDetail() {
           </div>
         </div>
 
-        {/* Service Controls (ONLY FOR CLIENT) */}
-        {!isProvider && booking.status === 'accepted' && (
-           <div className="rounded-[32px] p-8 flex flex-col items-center gap-6 border-2 border-dashed bg-gray-50 border-gray-100">
-              <div className="flex gap-4 w-full">
-                <button
-                  onClick={handleStartWork}
-                  className="flex-1 py-4 bg-black text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
-                >
-                  <Play className="w-5 h-5 fill-white" />
-                  Confirm Arrival & Start
-                </button>
+        {/* Start/Work controls (ONLY FOR CLIENT) */}
+        {!isProvider && (booking.status === 'accepted' || booking.status === 'active' || booking.status === 'completed') && (
+           <div className={`rounded-[32px] p-8 flex flex-col items-center gap-6 border-2 border-dashed transition-all ${
+             booking.status === 'active' ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-100'
+           }`}>
+              <div className="flex items-center gap-3 py-1.5 px-4 bg-white rounded-full border border-gray-100 shadow-sm">
+                <Activity className={`w-4 h-4 ${booking.status === 'active' ? 'text-blue-600 animate-pulse' : 'text-gray-400'}`} />
+                <p className="text-[10px] font-black tracking-widest uppercase text-gray-900">Mission Clock</p>
               </div>
-           </div>
-        )}
-        {!isProvider && booking.status === 'active' && (
-           <div className="rounded-[32px] p-8 flex flex-col items-center gap-6 border-2 border-dashed bg-blue-50 border-blue-200">
+              
+              {(booking.startTime) && (
+                <div className="flex flex-col items-center">
+                   <p className="text-5xl font-black text-gray-900 tracking-tighter">
+                     {getDurationString(booking.startTime, booking.endTime)}
+                   </p>
+                   <p className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-[0.2em]">
+                     {booking.endTime ? 'TOTAL WORK DURATION' : 'CURRENT WORK DURATION'}
+                   </p>
+                </div>
+              )}
+
               <div className="flex gap-4 w-full">
-                <button
-                  onClick={handleStopWork}
-                  className="flex-1 py-4 bg-black text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
-                >
-                  <Square className="w-5 h-5 fill-white" />
-                  Finish Work
-                </button>
+                {booking.status === 'accepted' ? (
+                  <div className="flex-1 py-6 bg-gray-900 text-white rounded-[24px] flex flex-col items-center justify-center shadow-xl relative overflow-hidden w-full">
+                    <p className="text-[10px] font-black tracking-[0.2em] opacity-60 uppercase mb-2 text-center text-gray-400">ARRIVAL VERIFICATION PIN</p>
+                    <div className="text-4xl font-black tracking-[0.2em]">{booking.id.replace(/\D/g, '0').slice(-4)}</div>
+                    <div className="text-[10px] font-bold text-gray-400 mt-3 max-w-[200px] text-center">Give this PIN to the specialist when they arrive to start the mission clock.</div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
+                  </div>
+                ) : !booking.endTime ? (
+                  <button
+                    onClick={handleStopWork}
+                    className="flex-1 py-4 bg-red-500 text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+                  >
+                    <Square className="w-5 h-5 fill-white" />
+                    End Work
+                  </button>
+                ) : (
+                   <div className="flex-1 py-4 bg-green-50 text-green-600 rounded-2xl font-bold text-center border border-green-100 flex items-center justify-center gap-2">
+                     <CheckCircle className="w-5 h-5" />
+                     Work Logs Captured
+                   </div>
+                )}
               </div>
+              <p className="text-[10px] text-gray-400 font-medium text-center italic">
+                *As the client, you can start or stop the clock to verify working hours.
+              </p>
            </div>
         )}
 
@@ -221,10 +243,16 @@ export default function BookingDetail() {
                   const cleanPhone = phone.replace(/\D/g, '').slice(-10);
                   window.open(`tel:+91${cleanPhone}`);
                 }}
-                className="w-full py-4 bg-black text-white rounded-2xl font-black text-xs flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all"
+                className="flex-1 py-4 bg-gray-900 text-white rounded-2xl font-black text-xs flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all"
               >
                 <Phone className="w-4 h-4" />
-                Call Specialist
+                Call
+              </button>
+              <button
+                onClick={() => navigate(`/chat?providerId=${booking.providerId}&providerName=${booking.providerName}`)}
+                className="w-16 h-16 flex items-center justify-center bg-blue-50 text-blue-600 rounded-2xl border border-blue-100 active:scale-90 transition-all shrink-0"
+              >
+                <MessageSquare className="w-6 h-6" />
               </button>
             </div>
           </div>

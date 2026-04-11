@@ -26,12 +26,12 @@ export default function ProviderBottomNav() {
             >
               <item.icon
                 className={`w-6 h-6 ${
-                  isActive ? 'text-black scale-110' : 'text-gray-400'
+                  isActive ? 'text-blue-600' : 'text-gray-400'
                 }`}
               />
               <span
-                className={`text-xs font-black uppercase tracking-tighter ${
-                  isActive ? 'text-black' : 'text-gray-400'
+                className={`text-xs font-medium ${
+                  isActive ? 'text-blue-600' : 'text-gray-600'
                 }`}
               >
                 {item.label}

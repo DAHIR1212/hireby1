@@ -28,7 +28,7 @@ export default function BottomNav() {
             key={path}
             onClick={() => navigate(path)}
             className={`flex flex-col items-center gap-1 ${
-              isActive(path) ? 'text-black scale-110' : 'text-gray-400'
+              isActive(path) ? 'text-blue-600' : 'text-gray-400'
             }`}
           >
             <Icon className="w-6 h-6" />
